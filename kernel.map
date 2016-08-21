@@ -1,0 +1,288 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/jtag.o
+LOAD build/framebuffer.o
+LOAD build/decimal.o
+LOAD build/refresh.o
+LOAD build/drawEndingScreen.o
+LOAD build/snes.o
+LOAD build/initializing.o
+LOAD build/menu.o
+LOAD build/main.o
+LOAD build/winlose.o
+LOAD build/Clear.o
+LOAD build/drawStartMenu.o
+LOAD build/data.o
+LOAD build/collisions.o
+LOAD build/square.o
+LOAD build/drawChar.o
+LOAD build/drawOpeningMenu.o
+
+.init           0x00008000        0x4
+ *(.init)
+ .init          0x00008000        0x4 build/main.o
+                0x00008000                _start
+ .init          0x00008004        0x0 build/data.o
+
+.data           0x00009080     0x12c0
+ *(.data)
+ .data          0x00009080        0x0 build/jtag.o
+ .data          0x00009080       0x30 build/framebuffer.o
+ .data          0x000090b0       0x10 build/decimal.o
+ .data          0x000090c0        0x0 build/refresh.o
+ .data          0x000090c0       0x20 build/drawEndingScreen.o
+ .data          0x000090e0        0x0 build/snes.o
+ .data          0x000090e0        0x0 build/initializing.o
+ .data          0x000090e0       0x10 build/menu.o
+ .data          0x000090f0        0x0 build/main.o
+ .data          0x000090f0        0x0 build/winlose.o
+ .data          0x000090f0        0x0 build/Clear.o
+ .data          0x000090f0       0x30 build/drawStartMenu.o
+ .data          0x00009120      0x1d8 build/data.o
+                0x00009120                oldScore
+                0x00009124                player
+                0x00009138                monster
+                0x0000928c                wall
+                0x000092e6                counter
+                0x000092e8                FrameBufferPointer
+                0x000092ec                noButtons
+                0x000092f0                scoreInt
+                0x000092f6                monstersLeft
+ .data          0x000092f8        0x0 build/collisions.o
+ .data          0x000092f8        0x0 build/square.o
+ *fill*         0x000092f8        0x8 3f3f3f3f
+ .data          0x00009300      0x800 build/drawChar.o
+ .data          0x00009b00      0x840 build/drawOpeningMenu.o
+ *.c.o(*)
+
+.igot.plt       0x0000a340        0x0
+ .igot.plt      0x00000000        0x0 build/jtag.o
+
+.text           0x0000a340     0x16b0
+ *.c.o(.text)
+ *(.text)
+ .text          0x0000a340       0x8c build/jtag.o
+                0x0000a340                EnableJTAG
+ .text          0x0000a3cc       0x64 build/framebuffer.o
+                0x0000a3cc                InitFrameBuffer
+ .text          0x0000a430      0x118 build/decimal.o
+                0x0000a430                digits
+                0x0000a478                printScore
+ .text          0x0000a548      0x51c build/refresh.o
+                0x0000a548                playerRefresh
+                0x0000a748                monsterLoop
+                0x0000a780                wallLoop
+                0x0000a7b0                wallRefresh
+ .text          0x0000aa64       0x88 build/drawEndingScreen.o
+                0x0000aa64                drawEndingScreen
+ .text          0x0000aaec      0x138 build/snes.o
+                0x0000aaec                getButtons
+ .text          0x0000ac24       0xe4 build/initializing.o
+                0x0000ac24                initializing
+                0x0000ac68                initialiseMonsters
+                0x0000acc8                initialiseWalls
+ .text          0x0000ad08      0x238 build/menu.o
+                0x0000ad08                menu
+                0x0000ae04                delay
+                0x0000ae2c                resetData
+ .text          0x0000af40       0xb0 build/main.o
+                0x0000af40                main
+                0x0000af4c                mainTag
+                0x0000af5c                top
+                0x0000afa8                skipMenu
+                0x0000afe8                haltLoop$
+ .text          0x0000aff0       0xbc build/winlose.o
+                0x0000aff0                gameCondition
+                0x0000b094                endScreen
+ .text          0x0000b0ac       0xa8 build/Clear.o
+                0x0000b0ac                clearScreen
+ .text          0x0000b154      0x2ec build/drawStartMenu.o
+                0x0000b154                drawStartMenu
+                0x0000b284                drawMenuBox
+                0x0000b33c                drawVerticalBorder
+                0x0000b398                drawPointer
+ .text          0x0000b440        0x0 build/data.o
+ .text          0x0000b440      0x2b0 build/collisions.o
+                0x0000b440                bulletCollsionCheck
+                0x0000b5e0                whatObject
+                0x0000b614                checkCollisions
+ .text          0x0000b6f0      0x134 build/square.o
+                0x0000b6f0                DrawPixel16bpp2
+                0x0000b75c                render
+ .text          0x0000b824       0x64 build/drawChar.o
+                0x0000b824                DrawChar
+ .text          0x0000b888      0x168 build/drawOpeningMenu.o
+                0x0000b888                introduction
+                0x0000b890                introductionLoop
+OUTPUT(build/output.elf elf32-littlearm)
+
+.glue_7         0x0000b9f0        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x0000b9f0        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x0000b9f0        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0000b9f0        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x0000b9f0        0x0
+ .iplt          0x00000000        0x0 build/jtag.o
+
+.rel.dyn        0x0000b9f0        0x0
+ .rel.iplt      0x00000000        0x0 build/jtag.o
+
+.bss            0x0000b9f0        0x0
+ .bss           0x0000b9f0        0x0 build/jtag.o
+ .bss           0x0000b9f0        0x0 build/framebuffer.o
+ .bss           0x0000b9f0        0x0 build/decimal.o
+ .bss           0x0000b9f0        0x0 build/refresh.o
+ .bss           0x0000b9f0        0x0 build/drawEndingScreen.o
+ .bss           0x0000b9f0        0x0 build/snes.o
+ .bss           0x0000b9f0        0x0 build/initializing.o
+ .bss           0x0000b9f0        0x0 build/menu.o
+ .bss           0x0000b9f0        0x0 build/main.o
+ .bss           0x0000b9f0        0x0 build/winlose.o
+ .bss           0x0000b9f0        0x0 build/Clear.o
+ .bss           0x0000b9f0        0x0 build/drawStartMenu.o
+ .bss           0x0000b9f0        0x0 build/data.o
+ .bss           0x0000b9f0        0x0 build/collisions.o
+ .bss           0x0000b9f0        0x0 build/square.o
+ .bss           0x0000b9f0        0x0 build/drawChar.o
+ .bss           0x0000b9f0        0x0 build/drawOpeningMenu.o
+
+.ARM.attributes
+                0x00000000       0x26
+ .ARM.attributes
+                0x00000000       0x26 build/jtag.o
+ .ARM.attributes
+                0x00000026       0x26 build/framebuffer.o
+ .ARM.attributes
+                0x0000004c       0x26 build/decimal.o
+ .ARM.attributes
+                0x00000072       0x26 build/refresh.o
+ .ARM.attributes
+                0x00000098       0x26 build/drawEndingScreen.o
+ .ARM.attributes
+                0x000000be       0x26 build/snes.o
+ .ARM.attributes
+                0x000000e4       0x26 build/initializing.o
+ .ARM.attributes
+                0x0000010a       0x26 build/menu.o
+ .ARM.attributes
+                0x00000130       0x26 build/main.o
+ .ARM.attributes
+                0x00000156       0x26 build/winlose.o
+ .ARM.attributes
+                0x0000017c       0x26 build/Clear.o
+ .ARM.attributes
+                0x000001a2       0x26 build/drawStartMenu.o
+ .ARM.attributes
+                0x000001c8       0x26 build/data.o
+ .ARM.attributes
+                0x000001ee       0x26 build/collisions.o
+ .ARM.attributes
+                0x00000214       0x26 build/square.o
+ .ARM.attributes
+                0x0000023a       0x26 build/drawChar.o
+ .ARM.attributes
+                0x00000260       0x26 build/drawOpeningMenu.o
+
+.debug_line     0x00000000      0xa2f
+ .debug_line    0x00000000       0x61 build/jtag.o
+ .debug_line    0x00000061       0x5f build/framebuffer.o
+ .debug_line    0x000000c0       0x8a build/decimal.o
+ .debug_line    0x0000014a      0x191 build/refresh.o
+ .debug_line    0x000002db       0x6c build/drawEndingScreen.o
+ .debug_line    0x00000347       0x97 build/snes.o
+ .debug_line    0x000003de       0x86 build/initializing.o
+ .debug_line    0x00000464       0xd6 build/menu.o
+ .debug_line    0x0000053a       0x77 build/main.o
+ .debug_line    0x000005b1       0x72 build/winlose.o
+ .debug_line    0x00000623       0x67 build/Clear.o
+ .debug_line    0x0000068a      0x116 build/drawStartMenu.o
+ .debug_line    0x000007a0       0xf1 build/collisions.o
+ .debug_line    0x00000891       0x97 build/square.o
+ .debug_line    0x00000928       0x5b build/drawChar.o
+ .debug_line    0x00000983       0xac build/drawOpeningMenu.o
+
+.debug_info     0x00000000      0x631
+ .debug_info    0x00000000       0x5f build/jtag.o
+ .debug_info    0x0000005f       0x66 build/framebuffer.o
+ .debug_info    0x000000c5       0x62 build/decimal.o
+ .debug_info    0x00000127       0x62 build/refresh.o
+ .debug_info    0x00000189       0x6b build/drawEndingScreen.o
+ .debug_info    0x000001f4       0x5f build/snes.o
+ .debug_info    0x00000253       0x67 build/initializing.o
+ .debug_info    0x000002ba       0x5f build/menu.o
+ .debug_info    0x00000319       0x5b build/main.o
+ .debug_info    0x00000374       0x62 build/winlose.o
+ .debug_info    0x000003d6       0x60 build/Clear.o
+ .debug_info    0x00000436       0x68 build/drawStartMenu.o
+ .debug_info    0x0000049e       0x65 build/collisions.o
+ .debug_info    0x00000503       0x61 build/square.o
+ .debug_info    0x00000564       0x63 build/drawChar.o
+ .debug_info    0x000005c7       0x6a build/drawOpeningMenu.o
+
+.debug_abbrev   0x00000000      0x13e
+ .debug_abbrev  0x00000000       0x14 build/jtag.o
+ .debug_abbrev  0x00000014       0x14 build/framebuffer.o
+ .debug_abbrev  0x00000028       0x14 build/decimal.o
+ .debug_abbrev  0x0000003c       0x14 build/refresh.o
+ .debug_abbrev  0x00000050       0x14 build/drawEndingScreen.o
+ .debug_abbrev  0x00000064       0x14 build/snes.o
+ .debug_abbrev  0x00000078       0x14 build/initializing.o
+ .debug_abbrev  0x0000008c       0x14 build/menu.o
+ .debug_abbrev  0x000000a0       0x12 build/main.o
+ .debug_abbrev  0x000000b2       0x14 build/winlose.o
+ .debug_abbrev  0x000000c6       0x14 build/Clear.o
+ .debug_abbrev  0x000000da       0x14 build/drawStartMenu.o
+ .debug_abbrev  0x000000ee       0x14 build/collisions.o
+ .debug_abbrev  0x00000102       0x14 build/square.o
+ .debug_abbrev  0x00000116       0x14 build/drawChar.o
+ .debug_abbrev  0x0000012a       0x14 build/drawOpeningMenu.o
+
+.debug_aranges  0x00000000      0x208
+ .debug_aranges
+                0x00000000       0x20 build/jtag.o
+ .debug_aranges
+                0x00000020       0x20 build/framebuffer.o
+ .debug_aranges
+                0x00000040       0x20 build/decimal.o
+ .debug_aranges
+                0x00000060       0x20 build/refresh.o
+ .debug_aranges
+                0x00000080       0x20 build/drawEndingScreen.o
+ .debug_aranges
+                0x000000a0       0x20 build/snes.o
+ .debug_aranges
+                0x000000c0       0x20 build/initializing.o
+ .debug_aranges
+                0x000000e0       0x20 build/menu.o
+ .debug_aranges
+                0x00000100       0x28 build/main.o
+ .debug_aranges
+                0x00000128       0x20 build/winlose.o
+ .debug_aranges
+                0x00000148       0x20 build/Clear.o
+ .debug_aranges
+                0x00000168       0x20 build/drawStartMenu.o
+ .debug_aranges
+                0x00000188       0x20 build/collisions.o
+ .debug_aranges
+                0x000001a8       0x20 build/square.o
+ .debug_aranges
+                0x000001c8       0x20 build/drawChar.o
+ .debug_aranges
+                0x000001e8       0x20 build/drawOpeningMenu.o
+
+.debug_ranges   0x00000000       0x20
+ .debug_ranges  0x00000000       0x20 build/main.o
